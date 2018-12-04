@@ -1,19 +1,59 @@
 import React from 'react';
-import { Form, Input, Button} from 'antd';
-
+import { Form, Input, Button, message } from 'antd';
+import { API_ROOT } from '../constants';
+import { Link } from 'react-router-dom';
+/**
+ * Specifies aht <FormItem/> equals <Form.Item/>
+ * @type {FormItem}
+ */
 const FormItem = Form.Item;
 
+/**
+ * No state or function is passed in
+ */
 class RegistrationForm extends React.Component {
+
+    /**
+     *
+     * @type {{confirmDirty: boolean, autoCompleteResult: Array}}
+     */
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
     };
-
+    /**
+     * The function to be called if the register button has been clicked.
+     * @param e
+     */
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
+                fetch(`${API_ROOT}/signup`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        username: values.username,
+                        password: values.password,
+                    })
+                }).then((response) => {
+                    if (response.ok) {
+                        return response;
+                    }
+                    throw new Error(response.statusText);
+                })
+                    .then((response) => response.text())
+                    .then((response) => {
+                        console.log(response);
+                        message.success('Registration Succeed');
+                        /**
+                         * Direct the register page to login.
+                         */
+                        this.props.history.push('/login');
+                    })
+                    .catch((e) => {
+                        console.log(e)
+                        message.error('Registration Failed');
+                    });
             }
         });
     }
@@ -67,13 +107,13 @@ class RegistrationForm extends React.Component {
         };
 
         return (
-            <Form onSubmit={this.handleSubmit} className = "register">
+            <Form onSubmit={this.handleSubmit} className="register">
                 <FormItem
                     {...formItemLayout}
-                    label={"Username"}
+                    label="Username"
                 >
                     {getFieldDecorator('username', {
-                        rules: [{ required: true, message: 'Please input your nickname!', whitespace: false }],
+                        rules: [{ required: true, message: 'Please input your username!', whitespace: false }],
                     })(
                         <Input />
                     )}
@@ -108,6 +148,7 @@ class RegistrationForm extends React.Component {
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>
+                    <p>I already have an account, go back to <Link to="/Login">login</Link></p>
                 </FormItem>
             </Form>
         );
