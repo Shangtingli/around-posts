@@ -7,6 +7,7 @@ const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
     handleSubmit = (e) => {
+        console.log("handleSubmit function in Login.js script");
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -36,6 +37,7 @@ class NormalLoginForm extends React.Component {
     }
 
     render() {
+        console.log("Render function in Login.js script");
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">

@@ -16,6 +16,7 @@ class RegistrationForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
+                /**FETCH FUNCTION**/
                 fetch(`${API_ROOT}/signup`, {
                     method: 'POST',
                     body: JSON.stringify({

@@ -18,26 +18,27 @@ export class AroundMarker extends React.Component {
     render() {
         const { user, message, url, location, type } = this.props.post;
         const { lat, lon : lng } = location;
-        const isImagePost = type === 'image';
-        const icon = isImagePost ? undefined : {
+        const isVideoPost = type === 'video';
+        /**Controls if the marker is blue or red **/
+        const icon = !isVideoPost ? undefined : {
             url: blueMarkerUrl,
             scaledSize: new window.google.maps.Size(26, 41),
         }
         return (
             <Marker
                 position={{ lat, lng }}
-                onMouseOver={isImagePost ? this.toggleOpen : undefined}
-                onMouseOut={isImagePost ? this.toggleOpen : undefined}
-                onClick={isImagePost ? undefined : this.toggleOpen}
+                onMouseOver={isVideoPost ? this.toggleOpen : undefined}
+                onMouseOut={isVideoPost ? this.toggleOpen : undefined}
+                onClick={isVideoPost ? undefined : this.toggleOpen}
                 icon={icon}
             >
                 {this.state.isOpen ? (
                     <InfoWindow onCloseClick={this.toggleOpen}>
                         <div>
-                            {isImagePost ?
-                                <img src={url} alt={message} className="around-marker-image"/>
-                                :
+                            {isVideoPost ?
                                 <video src={url} className="around-marker-video" controls/>
+                                :
+                                <img src={url} alt={message} className="around-marker-image"/>
                             }
 
                             <p>{`${user}: ${message}`}</p>

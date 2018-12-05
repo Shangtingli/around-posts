@@ -5,6 +5,7 @@ const FormItem = Form.Item;
 
 class NormalCreatePostForm extends React.Component {
     normFile = (e) => {
+        console.log("normFile function in CreatePostForm.js script");
         console.log('Upload event:', e);
         if (Array.isArray(e)) {
             return e;
@@ -15,6 +16,7 @@ class NormalCreatePostForm extends React.Component {
     beforeUpload = () => false
 
     render() {
+        console.log("Render function in CreatePostForm.js script");
         const { getFieldDecorator } = this.props.form;
         const formItemLayout = {
             labelCol: { span: 6 },

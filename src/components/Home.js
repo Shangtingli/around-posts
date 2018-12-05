@@ -19,6 +19,7 @@ export class Home extends React.Component {
     }
 
     componentDidMount() {
+        console.log("componentDidMount function in Home.js script");
         if ("geolocation" in navigator) {
             this.setState({ isLoadingGeoLocation: true, error: '' });
             navigator.geolocation.getCurrentPosition(
@@ -31,7 +32,7 @@ export class Home extends React.Component {
     }
 
     onSuccessLoadGeoLocation = (position) => {
-        console.log(position);
+        console.log("onSuccessLoadGeoLocation function in Home.js script");
         const { latitude, longitude } = position.coords;
         localStorage.setItem(POS_KEY, JSON.stringify({ lat: latitude, lon: longitude }));
         this.setState({ isLoadingGeoLocation: false });
@@ -39,14 +40,17 @@ export class Home extends React.Component {
     }
 
     onFailedLoadGeoLocation = () => {
+        console.log("onFailedLoadGeoLocation function in Home.js script");
         this.setState({ isLoadingGeoLocation: false, error: 'Failed to load geolocation.' });
     }
 
     loadNearbyPosts = (center, radius) => {
+        console.log("loadNearbyPosts function in Home.js script");
         const { lat, lon } = center ? center : JSON.parse(localStorage.getItem(POS_KEY));
         const range = radius ? radius : 20;
         const token = localStorage.getItem(TOKEN_KEY);
         this.setState({ isLoadingPosts: true, error: '' });
+        /**FETCH FUNCTION**/
         return fetch(`${API_ROOT}/search?lat=${lat}&lon=${lon}&range=${range}`, {
             method: 'GET',
             headers: {
@@ -67,6 +71,7 @@ export class Home extends React.Component {
     }
 
     getPanelContent = (type) => {
+        console.log("getPanelContent function in Home.js script");
         const { error, isLoadingGeoLocation, isLoadingPosts, posts } = this.state;
         if (error) {
             return <div>{error}</div>
@@ -82,6 +87,7 @@ export class Home extends React.Component {
     }
 
     getVideoPosts = () => {
+        console.log("getVideoPosts function in Home.js script");
         return (
             <Row gutter={32}>
                 {this.state.posts.filter((post) => post.type === 'video').map((post) => {
@@ -97,6 +103,7 @@ export class Home extends React.Component {
     }
 
     getImagePosts = () => {
+        console.log("getImagePosts function in Home.js script");
         const images = this.state.posts
             .filter((post) => post.type === 'image')
             .map((post) => {
@@ -114,6 +121,7 @@ export class Home extends React.Component {
     }
 
     onTopicChange = (e) => {
+        console.log("onTopicChange function in Home.js script");
         const topic = e.target.value;
         this.setState({ topic });
         if (topic === 'around') {
@@ -124,8 +132,10 @@ export class Home extends React.Component {
     }
 
     loadFacesAroundTheWorld = () => {
+        console.log("LoadFacesAroundTheWorld function in Home.js script");
         const token = localStorage.getItem(TOKEN_KEY);
         this.setState({ isLoadingPosts: true, error: '' });
+        /**FETCH FUNCTION **/
         fetch(`${API_ROOT}/cluster?term=face`, {
             method: 'GET',
             headers: {
@@ -148,6 +158,8 @@ export class Home extends React.Component {
     }
 
     render() {
+        console.log("Render function in Home.js script");
+        console.log(this.state.posts);
         const operations = <CreatePostButton loadNearbyPosts={this.loadNearbyPosts}/>;
         return (
             <div className="home">

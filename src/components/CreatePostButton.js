@@ -11,12 +11,14 @@ export class CreatePostButton extends React.Component {
     }
 
     showModal = () => {
+        console.log("showModal function in createPostButton.js script");
         this.setState({
             visible: true,
         });
     }
 
     handleOk = () => {
+        console.log("handleOK function in createPostButton.js script");
         this.form.validateFields((err, values) => {
             if (!err) {
                 console.log(values);
@@ -26,9 +28,10 @@ export class CreatePostButton extends React.Component {
                 formData.set('lat', lat + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE);
                 formData.set('lon', lon + LOC_SHAKE * Math.random() * 2 - LOC_SHAKE);
                 formData.set('message', values.message);
-                formData.set('image', values.image[0].originFileObj);
-
+                formData.set('image', values.image[0].Obj);
+                console.log(values);
                 this.setState({ confirmLoading: true });
+                /**FETCH FUNCTION**/
                 fetch(`${API_ROOT}/post`, {
                     method: 'POST',
                     headers: {
@@ -54,17 +57,20 @@ export class CreatePostButton extends React.Component {
     }
 
     handleCancel = () => {
-        console.log('Clicked cancel button');
+        console.log("handleCancel function in createPostBUTTON.js script");
+        // console.log('Clicked cancel button');
         this.setState({
             visible: false,
         });
     }
 
     saveFormRef = (formInstance) => {
+        console.log("saveFormRef function in createPostBUTTON.js script");
         this.form = formInstance;
     }
 
     render() {
+        console.log("Render function in createPostBUTTON.js script");
         const { visible, confirmLoading } = this.state;
         return (
             <div>
