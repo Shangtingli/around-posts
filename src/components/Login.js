@@ -1,30 +1,16 @@
 import React from 'react';
 import { Form, Icon, Input, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
-import { API_ROOT } from '../constants';
+import { API_ROOT, TOKEN_KEY } from '../constants';
 
-/**
- * Specifies aht <FormItem/> equals <Form.Item/>
- * @type {FormItem}
- */
 const FormItem = Form.Item;
 
-/**
- * Passed in props: handleLogin()
- */
 class NormalLoginForm extends React.Component {
-    /**
-     * Asynchronous programming:
-     * (1) Post the username and password to the backend
-     * (2) If succeed then print success message
-     * (3) Then use handleLogin (data)
-     * @param e
-     */
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                /* Use ` ` to concatenate javascript expressions */
+                console.log('Received values of form: ', values);
                 fetch(`${API_ROOT}/login`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -38,11 +24,11 @@ class NormalLoginForm extends React.Component {
                     throw new Error(response.statusText);
                 })
                     .then((data) => {
-                        message.success('Login Success')
                         this.props.handleLogin(data);
+                        message.success('Login Success.');
                     })
                     .catch((e) => {
-                        console.log(e)
+                        console.log(e);
                         message.error('Login Failed.');
                     });
             }
@@ -52,11 +38,6 @@ class NormalLoginForm extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            /**
-             * Passed the handleSubmit to the form of login
-             * Values returned is equal to the each FormItem's name
-             * <Link> could be used to direct pages
-             */
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
                     {getFieldDecorator('username', {

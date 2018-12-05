@@ -2,29 +2,16 @@ import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { API_ROOT } from '../constants';
 import { Link } from 'react-router-dom';
-/**
- * Specifies aht <FormItem/> equals <Form.Item/>
- * @type {FormItem}
- */
+
 const FormItem = Form.Item;
 
-/**
- * No state or function is passed in
- */
-class RegistrationForm extends React.Component {
 
-    /**
-     *
-     * @type {{confirmDirty: boolean, autoCompleteResult: Array}}
-     */
+class RegistrationForm extends React.Component {
     state = {
         confirmDirty: false,
         autoCompleteResult: [],
     };
-    /**
-     * The function to be called if the register button has been clicked.
-     * @param e
-     */
+
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -40,14 +27,10 @@ class RegistrationForm extends React.Component {
                         return response;
                     }
                     throw new Error(response.statusText);
-                })
-                    .then((response) => response.text())
+                }).then((response) => response.text())
                     .then((response) => {
                         console.log(response);
                         message.success('Registration Succeed');
-                        /**
-                         * Direct the register page to login.
-                         */
                         this.props.history.push('/login');
                     })
                     .catch((e) => {
@@ -148,7 +131,7 @@ class RegistrationForm extends React.Component {
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">Register</Button>
-                    <p>I already have an account, go back to <Link to="/Login">login</Link></p>
+                    <p>I already have an account, go back to <Link to="/login">login</Link></p>
                 </FormItem>
             </Form>
         );
