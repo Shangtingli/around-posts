@@ -1,18 +1,26 @@
 import React from 'react';
 import { Form, Icon, Input, Button, message } from 'antd';
 import { Link } from 'react-router-dom';
-import { API_ROOT, TOKEN_KEY } from '../constants';
+import {API_ROOT, NODE_ROOT, TOKEN_KEY} from '../constants';
 
 const FormItem = Form.Item;
 
 class NormalLoginForm extends React.Component {
     handleSubmit = (e) => {
+        debugger;
         console.log("handleSubmit function in Login.js script");
+        debugger;
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                /**FETCH FUNCTION**/
+                // console.log('Received values of form: ', values);
+                // /**FETCH FUNCTION**/
+                // var username = values.username;
+                // var password = values.password;
+                // var command = `${NODE_ROOT}users/verify?username=${username}`;
+                // fetch(command)
+                //     .then((response) => console.log(response))
+                //     .catch((err) => console.log(err))
                 fetch(`${API_ROOT}/login`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -33,6 +41,9 @@ class NormalLoginForm extends React.Component {
                         console.log(e);
                         message.error('Login Failed.');
                     });
+            }
+            else{
+                console.log(err);
             }
         });
     }

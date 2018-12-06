@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
-import { API_ROOT } from '../constants';
+import { API_ROOT,NODE_ROOT } from '../constants';
 import { Link } from 'react-router-dom';
 
 const FormItem = Form.Item;
@@ -17,6 +17,18 @@ class RegistrationForm extends React.Component {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 /**FETCH FUNCTION**/
+                // var command = `${NODE_ROOT}users/add?username=${values.username}&password=${values.password}`;
+                // console.log(command);
+                // fetch(command)
+                //     .then((response) => {
+                //         console.log(response);
+                //         message.success('Registration Succeed');
+                //         this.props.history.push('/login')
+                //     })
+                //     .catch (err => {
+                //         console.log(err);
+                //         message.error('Registration Failed');
+                // });
                 fetch(`${API_ROOT}/signup`, {
                     method: 'POST',
                     body: JSON.stringify({
