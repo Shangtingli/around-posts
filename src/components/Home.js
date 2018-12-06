@@ -19,6 +19,10 @@ export class Home extends React.Component {
     }
 
     componentDidMount() {
+        //
+        // fetch('http://localhost:4000/users/add?username=abcd&password=1234')
+        //     .then((response) => console.log(response)).
+        //     catch (err => console.log(err));
         console.log("componentDidMount function in Home.js script");
         if ("geolocation" in navigator) {
             this.setState({ isLoadingGeoLocation: true, error: '' });
@@ -44,6 +48,7 @@ export class Home extends React.Component {
         this.setState({ isLoadingGeoLocation: false, error: 'Failed to load geolocation.' });
     }
 
+    /**CHANGE: LoadMyPosts = (user_id) =>**/
     loadNearbyPosts = (center, radius) => {
         console.log("loadNearbyPosts function in Home.js script");
         const { lat, lon } = center ? center : JSON.parse(localStorage.getItem(POS_KEY));
